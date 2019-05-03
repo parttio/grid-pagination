@@ -3,7 +3,7 @@
 
     <groupId>org.vaadin.klaudeta</groupId>
     <artifactId>grid-pagination</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>Grid Pagination</name>
     <description>Integration of plutonium-pagination for Vaadin 11</description>
 
