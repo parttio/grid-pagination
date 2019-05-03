@@ -1,5 +1,7 @@
 package org.vaadin.klaudeta;
 
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.shared.Registration;
 import java.util.List;
 
 import com.vaadin.flow.component.AttachEvent;
@@ -55,20 +57,31 @@ public class PaginatedGrid<T> extends Grid<T> {
 		super.setDataProvider(DataProvider.fromStream(dataProvider.fetch(query)));
 	}
 
+	private void refreshPaginator(){
+		if (paginaton != null) {
+			paginaton.setPageSize(getPageSize());
+			paginaton.setPage(1);
+			if(dataProvider != null){
+				doCalcs(paginaton.getPage());
+			}
+			paginaton.refresh();
+		}
+	}
 	@Override
 	public void setPageSize(int pageSize) {
 		super.setPageSize(pageSize);
-		if (paginaton != null) {
-			paginaton.setPageSize(pageSize);
-			paginaton.setPage(1);
-			doCalcs(paginaton.getPage());
-		}
+		refreshPaginator();
 
 	}
 
 	public void setPage(int page) {
 		paginaton.setPage(page);
 	}
+
+	public int getPage(){
+		return paginaton.getPage();
+	}
+
 	@Override
 	public void setHeightByRows(boolean heightByRows) {
 		super.setHeightByRows(true);
@@ -88,12 +101,20 @@ public class PaginatedGrid<T> extends Grid<T> {
 	@Override
 	public void setDataProvider(DataProvider<T, ?> dataProvider) {
 		this.dataProvider = dataProvider;
-		InnerQuery query = new InnerQuery<>();
+		refreshPaginator();
 
-		paginaton.setTotal(dataProvider.size(query));
+	}
 
-		super.setDataProvider(DataProvider.fromStream(dataProvider.fetch(query)));
-
+	/**
+	 * Adds a ComponentEventListener to be notified with a PageChangeEvent each time
+	 * the selected page changes.
+	 *
+	 * @param listener to be added
+	 *
+	 * @return registration to unregister the listener from the component
+	 */
+	protected Registration addPageChangeListener(ComponentEventListener<PlutoniumPagination.PageChangeEvent> listener) {
+		return paginaton.addPageChangeListener(listener);
 	}
 
 	private class InnerQuery<F> extends Query<T, F> {
