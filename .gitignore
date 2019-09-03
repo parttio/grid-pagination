@@ -22,3 +22,10 @@ nbdist/
 
 ### JRebel ###
 rebel.xml
+
+webpack.generated.js
+
+### Dependency directories ###
+node_modules/
+jspm_packages/
+
