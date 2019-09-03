@@ -11,6 +11,7 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.provider.QuerySortOrder;
 import com.vaadin.flow.function.SerializableComparator;
+import java.util.Objects;
 
 /**
  * Grid component where scrolling feature is replaced with a pagination
@@ -22,25 +23,26 @@ import com.vaadin.flow.function.SerializableComparator;
  */
 public class PaginatedGrid<T> extends Grid<T> {
 
-	private PlutoniumPagination paginaton;
+	private LitPagination paginaton;
 
-	private DataProvider<T, ?> dataProvider;
+	private DataProvider<T, ?> dataProvider = DataProvider.ofItems();
 
 	public PaginatedGrid() {
-		paginaton = new PlutoniumPagination();
+		paginaton = new LitPagination();
 		this.setHeightByRows(true);
 		paginaton.addPageChangeListener(e -> doCalcs(e.getNewPage()));
 	}
 
 	@Override
 	protected void onAttach(AttachEvent attachEvent) {
-
 		super.onAttach(attachEvent);
 		getParent().ifPresent(p -> {
 
 			int indexOfChild = p.getElement().indexOfChild(this.getElement());
 			Span wrapper = new Span(paginaton);
 			wrapper.getElement().getStyle().set("width", "100%");
+			wrapper.getElement().getStyle().set("display", "flex");
+			wrapper.getElement().getStyle().set("justify-content", "center");
 			p.getElement().insertChild(indexOfChild + 1, wrapper.getElement());
 		});
 
@@ -52,12 +54,14 @@ public class PaginatedGrid<T> extends Grid<T> {
 
 		InnerQuery query = new InnerQuery<>(offset);
 
+
 		paginaton.setTotal(dataProvider.size(query));
 
 		super.setDataProvider(DataProvider.fromStream(dataProvider.fetch(query)));
+
 	}
 
-	private void refreshPaginator(){
+	public void refreshPaginator(){
 		if (paginaton != null) {
 			paginaton.setPageSize(getPageSize());
 			paginaton.setPage(1);
@@ -100,8 +104,16 @@ public class PaginatedGrid<T> extends Grid<T> {
 
 	@Override
 	public void setDataProvider(DataProvider<T, ?> dataProvider) {
-		this.dataProvider = dataProvider;
-		refreshPaginator();
+		Objects.requireNonNull(dataProvider, "DataProvider shoul not be null!");
+
+		if (!Objects.equals(this.dataProvider, dataProvider)){
+			this.dataProvider = dataProvider;
+			this.dataProvider.addDataProviderListener(event -> {
+				refreshPaginator();
+			});
+			refreshPaginator();
+		}
+
 
 	}
 
@@ -113,7 +125,7 @@ public class PaginatedGrid<T> extends Grid<T> {
 	 *
 	 * @return registration to unregister the listener from the component
 	 */
-	protected Registration addPageChangeListener(ComponentEventListener<PlutoniumPagination.PageChangeEvent> listener) {
+	protected Registration addPageChangeListener(ComponentEventListener<LitPagination.PageChangeEvent> listener) {
 		return paginaton.addPageChangeListener(listener);
 	}
 
