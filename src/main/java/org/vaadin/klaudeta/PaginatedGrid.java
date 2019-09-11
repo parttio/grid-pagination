@@ -28,6 +28,7 @@ public class PaginatedGrid<T> extends Grid<T> {
 
 	public PaginatedGrid() {
 		paginaton = new PlutoniumPagination();
+		this.dataProvider = super.getDataProvider();
 		this.setHeightByRows(true);
 		paginaton.addPageChangeListener(e -> doCalcs(e.getNewPage()));
 	}
