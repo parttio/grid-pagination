@@ -114,7 +114,7 @@ public class PaginatedGrid<T> extends Grid<T> {
 	 *
 	 * @return registration to unregister the listener from the component
 	 */
-	protected Registration addPageChangeListener(ComponentEventListener<PlutoniumPagination.PageChangeEvent> listener) {
+	public Registration addPageChangeListener(ComponentEventListener<PlutoniumPagination.PageChangeEvent> listener) {
 		return paginaton.addPageChangeListener(listener);
 	}
 
