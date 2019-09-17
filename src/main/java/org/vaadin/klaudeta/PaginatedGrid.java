@@ -25,10 +25,11 @@ public class PaginatedGrid<T> extends Grid<T> {
 
 	private LitPagination paginaton;
 
-	private DataProvider<T, ?> dataProvider = DataProvider.ofItems();
+	private DataProvider<T, ?> dataProvider;
 
 	public PaginatedGrid() {
 		paginaton = new LitPagination();
+		this.dataProvider = super.getDataProvider();
 		this.setHeightByRows(true);
 		paginaton.addPageChangeListener(e -> doCalcs(e.getNewPage()));
 	}
@@ -125,7 +126,7 @@ public class PaginatedGrid<T> extends Grid<T> {
 	 *
 	 * @return registration to unregister the listener from the component
 	 */
-	protected Registration addPageChangeListener(ComponentEventListener<LitPagination.PageChangeEvent> listener) {
+	public Registration addPageChangeListener(ComponentEventListener<LitPagination.PageChangeEvent> listener) {
 		return paginaton.addPageChangeListener(listener);
 	}
 
