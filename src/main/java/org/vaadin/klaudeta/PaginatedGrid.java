@@ -103,6 +103,19 @@ public class PaginatedGrid<T> extends Grid<T> {
 		paginaton.refresh();
 	}
 
+
+	/**
+	 * Sets the texts they are displayed on the paginator. This method is useful
+	 * when localization of the component is applicable.
+	 *
+	 * @param pageText the text to display for the `Page` term in the Paginator
+	 * @param ofText the text to display for the `of` term in the Paginator
+	 */
+	public void setPaginatorTexts(String pageText, String ofText){
+		paginaton.setPageText(pageText);
+		paginaton.setOfText(ofText);
+	}
+
 	@Override
 	public void setDataProvider(DataProvider<T, ?> dataProvider) {
 		Objects.requireNonNull(dataProvider, "DataProvider shoul not be null!");

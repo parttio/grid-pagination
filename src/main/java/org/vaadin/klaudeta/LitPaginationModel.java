@@ -76,4 +76,23 @@ public interface LitPaginationModel extends HasElement {
         getElement().setProperty("size", Integer.toString(size));
     }
 
+    /**
+     * Sets the text to display for the `Page` term in the Paginator.
+     *
+     * @param pageText
+     */
+    default void setPageText(String pageText){
+        getElement().setProperty("pageText", pageText);
+    }
+
+    /**
+     * Sets the text to display for the `of` term in the Paginator.
+     *
+     * @param ofText
+     */
+    default void setOfText(String ofText){
+        getElement().setProperty("ofText", ofText);
+    }
+
+
 }

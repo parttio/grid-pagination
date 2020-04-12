@@ -1,12 +1,12 @@
 # Grid Pagination
 
-This addon adds pagination feature to the Vaadin 10 Grid component. To do so, it extends the existing Vaadin 10 Grid and creates a custom PaginatedGrid
+This addon adds pagination feature to the Vaadin 14+ Grid component. To do so, it extends the existing Vaadin 14 Grid and creates a custom PaginatedGrid
 
-An internal PlutoniumPagination component is created by integrating the plutonium-pagination web component from https://github.com/Klaudeta/plutonium-pagination
+An internal LitPagination component is created which handles the pagination and navigation through pages. 
 
 ## Usage instructions
 
-To use the pagination feature on the grid you just have to use PaginatedGrid component instead of the standard Vaadin 10 Grid as follows: 
+To use the pagination feature on the grid you just have to use PaginatedGrid component instead of the standard Vaadin 14+ Grid as follows: 
 
 ```
 	PaginatedGrid<Address> grid = new PaginatedGrid<>();

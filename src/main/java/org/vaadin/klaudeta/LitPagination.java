@@ -17,8 +17,12 @@ import com.vaadin.flow.shared.Registration;
  *
  */
 @Tag("lit-pagination")
-@JsModule("lit-pagination/lit-pagination.js")
-@NpmPackage(value = "lit-pagination", version = "^1.0.0")
+@NpmPackage(value = "@polymer/paper-button", version = "^3.0.1")
+@NpmPackage(value = "@polymer/iron-iconset-svg", version = "^3.0.1")
+@NpmPackage(value = "@polymer/paper-icon-button", version = "^3.0.2")
+@NpmPackage(value = "lit-element", version = "^2.2.1")
+@NpmPackage(value = "lit-html", version = "^1.1.2")
+@JsModule("lit-pagination.js")
 public class LitPagination extends Component implements LitPaginationModel{
 
 
