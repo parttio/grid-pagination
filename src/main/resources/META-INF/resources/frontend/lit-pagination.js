@@ -89,12 +89,10 @@ class LitPagination extends LitElement{
                 type: Array
             },
             pageText: {
-                type: String,
-                value: "Page"
+                type: String
             },
             ofText: {
-                type: String,
-                value: "of"
+                type: String
             }
 
         };
@@ -110,6 +108,8 @@ class LitPagination extends LitElement{
         this.hasBefore = this.computeBefore(this.page, this.pages);
         this.hasNext = this.computeNext(this.page, this.pages);
         this.hasPages = this.computeHasPage(this.items.size, this.total);
+        this.pageText = "Page";
+        this.ofText = "of"
     }
 
     set page(val){
