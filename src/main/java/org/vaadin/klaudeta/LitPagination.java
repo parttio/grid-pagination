@@ -22,7 +22,7 @@ import com.vaadin.flow.shared.Registration;
 @NpmPackage(value = "@polymer/paper-icon-button", version = "^3.0.2")
 @NpmPackage(value = "lit-element", version = "^2.2.1")
 @NpmPackage(value = "lit-html", version = "^1.1.2")
-@JsModule("lit-pagination.js")
+@JsModule("./lit-pagination.js")
 public class LitPagination extends Component implements LitPaginationModel{
 
 
