@@ -32,13 +32,17 @@ class LitPagination extends LitElement{
 
         :host paper-button {
             color: var(--primary-text-color);
+            color: var(--lumo-body-text-color);
+            color: var(--material-body-text-color);
             background-color: transparent;
             border-radius: 16px;
         }
 
         :host span {
             margin: 0px 4px;
-        }`;
+        }
+        
+    `;
       } 
 
 
