@@ -32,6 +32,8 @@ public class PaginatedGrid<T> extends Grid<T> {
 		this.dataProvider = super.getDataProvider();
 		this.setHeightByRows(true);
 		paginaton.addPageChangeListener(e -> doCalcs(e.getNewPage()));
+		addSortListener(e -> doCalcs(paginaton.getPage()));
+
 	}
 
 	@Override

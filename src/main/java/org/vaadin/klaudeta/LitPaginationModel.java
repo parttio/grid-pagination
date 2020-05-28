@@ -13,7 +13,7 @@ public interface LitPaginationModel extends HasElement {
      *
      * @return page
      */
-    @Synchronize("change")
+    @Synchronize("page-change")
     default int getPage(){
      return Integer.valueOf(getElement().getProperty("page", "0"));
     }
