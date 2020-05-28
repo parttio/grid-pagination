@@ -217,6 +217,7 @@
                             <!-- Generated file that shouldn't be included in add-ons -->
                             <excludes>
                                 <exclude>META-INF/VAADIN/config/flow-build-info.json</exclude>
+                                <exclude>rebel.xml</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
