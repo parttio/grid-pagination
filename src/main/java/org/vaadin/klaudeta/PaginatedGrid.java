@@ -22,18 +22,18 @@ import java.util.Objects;
  */
 public class PaginatedGrid<T> extends Grid<T> {
 
-    private final LitPagination paginaton;
+    private final LitPagination pagination;
 
     private PaginationLocation paginationLocation = PaginationLocation.BOTTOM;
 
     private DataProvider<T, ?> dataProvider;
 
     public PaginatedGrid() {
-	paginaton = new LitPagination();
+	pagination = new LitPagination();
 	this.dataProvider = super.getDataProvider();
 	this.setHeightByRows(true);
-	paginaton.addPageChangeListener(e -> doCalcs(e.getNewPage()));
-	addSortListener(e -> doCalcs(paginaton.getPage()));
+	pagination.addPageChangeListener(e -> doCalcs(e.getNewPage()));
+	addSortListener(e -> doCalcs(pagination.getPage()));
 
     }
 
@@ -42,7 +42,7 @@ public class PaginatedGrid<T> extends Grid<T> {
 	getParent().ifPresent(p -> {
 
 	    int indexOfChild = p.getElement().indexOfChild(this.getElement());
-	    Span wrapper = new Span(paginaton);
+	    Span wrapper = new Span(pagination);
 	    wrapper.getElement().getStyle().set("width", "100%");
 	    wrapper.getElement().getStyle().set("display", "flex");
 	    wrapper.getElement().getStyle().set("justify-content", "center");
@@ -62,20 +62,20 @@ public class PaginatedGrid<T> extends Grid<T> {
 
 	InnerQuery query = new InnerQuery<>(offset);
 
-	paginaton.setTotal(dataProvider.size(query));
+	pagination.setTotal(dataProvider.size(query));
 
 	super.setDataProvider(DataProvider.fromStream(dataProvider.fetch(query)));
 
     }
 
     public void refreshPaginator() {
-	if (paginaton != null) {
-	    paginaton.setPageSize(getPageSize());
-	    paginaton.setPage(1);
+	if (pagination != null) {
+	    pagination.setPageSize(getPageSize());
+	    pagination.setPage(1);
 	    if (dataProvider != null) {
-		doCalcs(paginaton.getPage());
+		doCalcs(pagination.getPage());
 	    }
-	    paginaton.refresh();
+	    pagination.refresh();
 	}
     }
 
@@ -86,11 +86,11 @@ public class PaginatedGrid<T> extends Grid<T> {
     }
 
     public int getPage() {
-	return paginaton.getPage();
+	return pagination.getPage();
     }
 
     public void setPage(int page) {
-	paginaton.setPage(page);
+	pagination.setPage(page);
     }
 
     /**
@@ -119,9 +119,9 @@ public class PaginatedGrid<T> extends Grid<T> {
      * @param size
      */
     public void setPaginatorSize(int size) {
-	paginaton.setPage(1);
-	paginaton.setPaginatorSize(size);
-	paginaton.refresh();
+	pagination.setPage(1);
+	pagination.setPaginatorSize(size);
+	pagination.refresh();
     }
 
     /**
@@ -132,8 +132,8 @@ public class PaginatedGrid<T> extends Grid<T> {
      * @param ofText   the text to display for the `of` term in the Paginator
      */
     public void setPaginatorTexts(String pageText, String ofText) {
-	paginaton.setPageText(pageText);
-	paginaton.setOfText(ofText);
+	pagination.setPageText(pageText);
+	pagination.setOfText(ofText);
     }
 
     @Override public void setDataProvider(DataProvider<T, ?> dataProvider) {
@@ -157,7 +157,7 @@ public class PaginatedGrid<T> extends Grid<T> {
      * @return registration to unregister the listener from the component
      */
     public Registration addPageChangeListener(ComponentEventListener<LitPagination.PageChangeEvent> listener) {
-	return paginaton.addPageChangeListener(listener);
+	return pagination.addPageChangeListener(listener);
     }
 
     /**
