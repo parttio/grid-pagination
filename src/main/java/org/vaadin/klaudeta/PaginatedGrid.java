@@ -1,6 +1,7 @@
 package org.vaadin.klaudeta;
 
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Span;
@@ -22,11 +23,14 @@ import java.util.Objects;
  */
 public class PaginatedGrid<T> extends Grid<T> {
 
+
     private final LitPagination pagination = new LitPagination();
+    private Component paginationContainer = null;
 
     private PaginationLocation paginationLocation = PaginationLocation.BOTTOM;
 
     private DataProvider<T, ?> dataProvider;
+
 
     public PaginatedGrid() {
         super();
@@ -45,25 +49,38 @@ public class PaginatedGrid<T> extends Grid<T> {
         addSortListener(e -> doCalcs(pagination.getPage()));
     }
 
+    /**
+     * Sets a container component for the pagination component to be placed within.
+     * If a container is set the PaginationLocation will be ignored.
+     * @param paginationContainer
+     */
+    public void setPaginationContainer(Component paginationContainer) {
+        this.paginationContainer = paginationContainer;
+    }
+
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        getParent().ifPresent(p -> {
 
-            int indexOfChild = p.getElement().indexOfChild(this.getElement());
-            Span wrapper = new Span(pagination);
-            wrapper.getElement().getStyle().set("width", "100%");
-            wrapper.getElement().getStyle().set("display", "flex");
-            wrapper.getElement().getStyle().set("justify-content", "center");
+        Span wrapper = new Span(pagination);
+        wrapper.getElement().getStyle().set("width", "100%");
+        wrapper.getElement().getStyle().set("display", "flex");
+        wrapper.getElement().getStyle().set("justify-content", "center");
 
-            //this moves the pagination element below the grid
-            if (paginationLocation == PaginationLocation.BOTTOM)
-                indexOfChild++;
+        if (paginationContainer!=null){
+            paginationContainer.getElement().insertChild(0, wrapper.getElement());
+        } else {
+            getParent().ifPresent(p -> {
 
-            p.getElement().insertChild(indexOfChild, wrapper.getElement());
+                int indexOfChild = p.getElement().indexOfChild(this.getElement());
 
-        });
+                //this moves the pagination element below the grid
+                if (paginationLocation == PaginationLocation.BOTTOM)
+                    indexOfChild++;
 
+                p.getElement().insertChild(indexOfChild, wrapper.getElement());
+            });
+        }
         doCalcs(0);
     }
 
