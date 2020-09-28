@@ -22,82 +22,93 @@ import java.util.Objects;
  */
 public class PaginatedGrid<T> extends Grid<T> {
 
-    private final LitPagination pagination;
+    private final LitPagination pagination = new LitPagination();
 
     private PaginationLocation paginationLocation = PaginationLocation.BOTTOM;
 
     private DataProvider<T, ?> dataProvider;
 
     public PaginatedGrid() {
-	pagination = new LitPagination();
-	this.dataProvider = super.getDataProvider();
-	this.setHeightByRows(true);
-	pagination.addPageChangeListener(e -> doCalcs(e.getNewPage()));
-	addSortListener(e -> doCalcs(pagination.getPage()));
-
+        super();
+        init();
     }
 
-    @Override protected void onAttach(AttachEvent attachEvent) {
-	super.onAttach(attachEvent);
-	getParent().ifPresent(p -> {
+    public PaginatedGrid(Class<T> beanType) {
+        super(beanType);
+        init();
+    }
 
-	    int indexOfChild = p.getElement().indexOfChild(this.getElement());
-	    Span wrapper = new Span(pagination);
-	    wrapper.getElement().getStyle().set("width", "100%");
-	    wrapper.getElement().getStyle().set("display", "flex");
-	    wrapper.getElement().getStyle().set("justify-content", "center");
+    private void init() {
+        this.dataProvider = super.getDataProvider();
+        this.setHeightByRows(true);
+        pagination.addPageChangeListener(e -> doCalcs(e.getNewPage()));
+        addSortListener(e -> doCalcs(pagination.getPage()));
+    }
 
-	    //this moves the pagination element below the grid
-	    if (paginationLocation == PaginationLocation.BOTTOM)
-		indexOfChild++;
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        getParent().ifPresent(p -> {
 
-	    p.getElement().insertChild(indexOfChild, wrapper.getElement());
-	});
+            int indexOfChild = p.getElement().indexOfChild(this.getElement());
+            Span wrapper = new Span(pagination);
+            wrapper.getElement().getStyle().set("width", "100%");
+            wrapper.getElement().getStyle().set("display", "flex");
+            wrapper.getElement().getStyle().set("justify-content", "center");
 
-	doCalcs(0);
+            //this moves the pagination element below the grid
+            if (paginationLocation == PaginationLocation.BOTTOM)
+                indexOfChild++;
+
+            p.getElement().insertChild(indexOfChild, wrapper.getElement());
+
+        });
+
+        doCalcs(0);
     }
 
     private void doCalcs(int newPage) {
-	int offset = newPage > 0 ? (newPage - 1) * this.getPageSize() : 0;
+        int offset = newPage > 0 ? (newPage - 1) * this.getPageSize() : 0;
 
-	InnerQuery query = new InnerQuery<>(offset);
+        InnerQuery query = new InnerQuery<>(offset);
 
-	pagination.setTotal(dataProvider.size(query));
+        pagination.setTotal(dataProvider.size(query));
 
-	super.setDataProvider(DataProvider.fromStream(dataProvider.fetch(query)));
+        super.setDataProvider(DataProvider.fromStream(dataProvider.fetch(query)));
 
     }
 
     public void refreshPaginator() {
-	if (pagination != null) {
-	    pagination.setPageSize(getPageSize());
-	    pagination.setPage(1);
-	    if (dataProvider != null) {
-		doCalcs(pagination.getPage());
-	    }
-	    pagination.refresh();
-	}
+        if (pagination != null) {
+            pagination.setPageSize(getPageSize());
+            pagination.setPage(1);
+            if (dataProvider != null) {
+                doCalcs(pagination.getPage());
+            }
+            pagination.refresh();
+        }
     }
 
-    @Override public void setPageSize(int pageSize) {
-	super.setPageSize(pageSize);
-	refreshPaginator();
+    @Override
+    public void setPageSize(int pageSize) {
+        super.setPageSize(pageSize);
+        refreshPaginator();
 
     }
 
     public int getPage() {
-	return pagination.getPage();
+        return pagination.getPage();
     }
 
     public void setPage(int page) {
-	pagination.setPage(page);
+        pagination.setPage(page);
     }
 
     /**
      * @return the location of the pagination element
      */
     public PaginationLocation getPaginationLocation() {
-	return paginationLocation;
+        return paginationLocation;
     }
 
     /**
@@ -106,11 +117,12 @@ public class PaginatedGrid<T> extends Grid<T> {
      * @param paginationLocation either PaginationLocation.TOP or PaginationLocation.BOTTOM
      */
     public void setPaginationLocation(PaginationLocation paginationLocation) {
-	this.paginationLocation = paginationLocation;
+        this.paginationLocation = paginationLocation;
     }
 
-    @Override public void setHeightByRows(boolean heightByRows) {
-	super.setHeightByRows(true);
+    @Override
+    public void setHeightByRows(boolean heightByRows) {
+        super.setHeightByRows(true);
     }
 
     /**
@@ -119,9 +131,9 @@ public class PaginatedGrid<T> extends Grid<T> {
      * @param size
      */
     public void setPaginatorSize(int size) {
-	pagination.setPage(1);
-	pagination.setPaginatorSize(size);
-	pagination.refresh();
+        pagination.setPage(1);
+        pagination.setPaginatorSize(size);
+        pagination.refresh();
     }
 
     /**
@@ -132,20 +144,21 @@ public class PaginatedGrid<T> extends Grid<T> {
      * @param ofText   the text to display for the `of` term in the Paginator
      */
     public void setPaginatorTexts(String pageText, String ofText) {
-	pagination.setPageText(pageText);
-	pagination.setOfText(ofText);
+        pagination.setPageText(pageText);
+        pagination.setOfText(ofText);
     }
 
-    @Override public void setDataProvider(DataProvider<T, ?> dataProvider) {
-	Objects.requireNonNull(dataProvider, "DataProvider shoul not be null!");
+    @Override
+    public void setDataProvider(DataProvider<T, ?> dataProvider) {
+        Objects.requireNonNull(dataProvider, "DataProvider shoul not be null!");
 
-	if (!Objects.equals(this.dataProvider, dataProvider)) {
-	    this.dataProvider = dataProvider;
-	    this.dataProvider.addDataProviderListener(event -> {
-		refreshPaginator();
-	    });
-	    refreshPaginator();
-	}
+        if (!Objects.equals(this.dataProvider, dataProvider)) {
+            this.dataProvider = dataProvider;
+            this.dataProvider.addDataProviderListener(event -> {
+                refreshPaginator();
+            });
+            refreshPaginator();
+        }
 
     }
 
@@ -157,7 +170,7 @@ public class PaginatedGrid<T> extends Grid<T> {
      * @return registration to unregister the listener from the component
      */
     public Registration addPageChangeListener(ComponentEventListener<LitPagination.PageChangeEvent> listener) {
-	return pagination.addPageChangeListener(listener);
+        return pagination.addPageChangeListener(listener);
     }
 
     /**
@@ -167,17 +180,17 @@ public class PaginatedGrid<T> extends Grid<T> {
 
     private class InnerQuery<F> extends Query<T, F> {
 
-	InnerQuery() {
-	    this(0);
-	}
+        InnerQuery() {
+            this(0);
+        }
 
-	InnerQuery(int offset) {
-	    super(offset, getPageSize(), getDataCommunicator().getBackEndSorting(), getDataCommunicator().getInMemorySorting(), null);
-	}
+        InnerQuery(int offset) {
+            super(offset, getPageSize(), getDataCommunicator().getBackEndSorting(), getDataCommunicator().getInMemorySorting(), null);
+        }
 
-	InnerQuery(int offset, List<QuerySortOrder> sortOrders, SerializableComparator<T> serializableComparator) {
-	    super(offset, getPageSize(), sortOrders, serializableComparator, null);
-	}
+        InnerQuery(int offset, List<QuerySortOrder> sortOrders, SerializableComparator<T> serializableComparator) {
+            super(offset, getPageSize(), sortOrders, serializableComparator, null);
+        }
 
     }
 
