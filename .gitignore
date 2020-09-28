@@ -29,3 +29,8 @@ webpack.generated.js
 node_modules/
 jspm_packages/
 
+package.json
+package-lock.json
+webpack.config.js
+webpack.generated.js
+
