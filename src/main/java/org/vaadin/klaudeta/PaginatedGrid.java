@@ -23,7 +23,6 @@ import java.util.Objects;
 public class PaginatedGrid<T> extends Grid<T> {
 
     private final LitPagination pagination = new LitPagination();
-    ;
 
     private PaginationLocation paginationLocation = PaginationLocation.BOTTOM;
 
