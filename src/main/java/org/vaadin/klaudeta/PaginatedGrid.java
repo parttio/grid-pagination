@@ -23,8 +23,8 @@ import java.util.Objects;
  */
 public class PaginatedGrid<T> extends Grid<T> {
 
-
     private final LitPagination pagination = new LitPagination();
+
     private Component paginationContainer = null;
 
     private PaginationLocation paginationLocation = PaginationLocation.BOTTOM;
@@ -177,6 +177,15 @@ public class PaginatedGrid<T> extends Grid<T> {
             refreshPaginator();
         }
 
+    }
+
+    /**
+     * change visibility of pagination component
+     *
+     * @param visibility boolean to change visibility
+     */
+    public void setPaginationVisibility(boolean visibility) {
+        pagination.setVisible(visibility);
     }
 
     /**
