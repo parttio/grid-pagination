@@ -12,6 +12,8 @@ target/
 *.iml
 *.ipr
 
+*.versionsBackup
+
 ### NetBeans ###
 nbproject/private/
 build/
@@ -23,8 +25,6 @@ nbdist/
 ### JRebel ###
 rebel.xml
 
-webpack.generated.js
-
 ### Dependency directories ###
 node_modules/
 jspm_packages/
@@ -33,5 +33,5 @@ package.json
 package-lock.json
 webpack.config.js
 webpack.generated.js
-*.versionsBackup
+
 
