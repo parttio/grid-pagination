@@ -263,7 +263,7 @@ class LitPagination extends LitElement{
     }
 
     onBefore(event) {
-        this.page = this.page > 0 ? this.page - 1 : 1;
+        this.page = this.page > 1 ? this.page - 1 : 1;
     }
 
     onNext(event) {
