@@ -233,6 +233,8 @@ class LitPagination extends LitElement{
 
     onPageChange(newValue, oldValue){
         this.dispatchEvent(new CustomEvent('page-change', {detail: {newPage: newValue, oldPage:oldValue}}));
+        this.hasBefore = this.computeBefore(this.newValue, this.pages);
+        this.hasNext = this.computeNext(this.newValue, this.pages);
     }
     
     _firstIndex(page, size) {
