@@ -21,7 +21,7 @@ import java.util.Objects;
  * @param <T>
  * @author klau
  */
-public class PaginatedGrid<T> extends Grid<T> {
+public class PaginatedGrid<T, F> extends Grid<T> {
 
     private final LitPagination pagination = new LitPagination();
 
@@ -31,7 +31,8 @@ public class PaginatedGrid<T> extends Grid<T> {
 
     private DataProvider<T, ?> dataProvider;
 
-
+    private F filter;
+    
     public PaginatedGrid() {
         super();
         init();
@@ -87,7 +88,7 @@ public class PaginatedGrid<T> extends Grid<T> {
     private void doCalcs(int newPage) {
         int offset = newPage > 0 ? (newPage - 1) * this.getPageSize() : 0;
 
-        InnerQuery query = new InnerQuery<>(offset);
+        InnerQuery query = new InnerQuery<>(offset, filter);
 
         pagination.setTotal(dataProvider.size(query));
 
@@ -178,6 +179,10 @@ public class PaginatedGrid<T> extends Grid<T> {
         }
 
     }
+    
+    public void setFilter(F filter) {
+    	this.filter = filter;
+    } 
 
     /**
      * change visibility of pagination component
@@ -209,9 +214,17 @@ public class PaginatedGrid<T> extends Grid<T> {
         InnerQuery() {
             this(0);
         }
+        
+        InnerQuery(F filter) {
+            this(0, filter);
+        }
 
         InnerQuery(int offset) {
             super(offset, getPageSize(), getDataCommunicator().getBackEndSorting(), getDataCommunicator().getInMemorySorting(), null);
+        }
+
+        InnerQuery(int offset, F filter) {
+            super(offset, getPageSize(), getDataCommunicator().getBackEndSorting(), getDataCommunicator().getInMemorySorting(), filter);
         }
 
         InnerQuery(int offset, List<QuerySortOrder> sortOrders, SerializableComparator<T> serializableComparator) {
