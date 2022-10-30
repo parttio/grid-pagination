@@ -1,12 +1,12 @@
 # Grid Pagination
 
-This addon adds pagination feature to the Vaadin 14+ Grid component. To do so, it extends the existing Vaadin 14 Grid and creates a custom PaginatedGrid
+This addon adds pagination feature to the Vaadin 23.2.4+ Grid component. To do so, it extends the existing Vaadin 23 Grid and creates a custom PaginatedGrid
 
 An internal LitPagination component is created which handles the pagination and navigation through pages. 
 
 ## Usage instructions
 
-To use the pagination feature on the grid you just have to use PaginatedGrid component instead of the standard Vaadin 14+ Grid as follows: 
+To use the pagination feature on the grid you just have to use PaginatedGrid component instead of the standard Vaadin 23.2.4+ Grid as follows: 
 
 ```
 	PaginatedGrid<Address> grid = new PaginatedGrid<>();
