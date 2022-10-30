@@ -45,7 +45,6 @@ class LitPagination extends LitElement{
     `;
       } 
 
-
     static get properties() {
         return {
             /** Per-page limit of the elements. */
@@ -105,7 +104,7 @@ class LitPagination extends LitElement{
     constructor(){
         super();
         this.limit = 2;
-        this.page = 2;
+        this.page = 1;
         this.size = 2;
         this.items = {};
         this.total = 20;
@@ -122,6 +121,11 @@ class LitPagination extends LitElement{
         this.requestUpdate('page', oldVal);
         this.onPageChange(this._page, oldVal);
         this.observePageCount(this._page, this.limit, this.total);
+
+        this.hasBefore = this.computeBefore(val, this.pages);
+        this.hasNext = this.computeNext(val, this.pages);
+
+        this.updateNavigationButtonsState()
     }
 
     get page(){
@@ -182,8 +186,8 @@ class LitPagination extends LitElement{
             </svg>
         </iron-iconset-svg>
         <div class="paginator-page-container" ?hidden="${!this.hasPage}">
-            <paper-icon-button icon="pagination-icons:fast-rewind" @click="${event => this.onBegin()}" ?hidden="${!this.hasBefore}"></paper-icon-button>
-            <paper-icon-button icon="pagination-icons:navigate-before" @click="${event => this.onBefore()}" ?hidden="${!this.hasBefore}"></paper-icon-button>
+            <paper-icon-button id="fastRewindId" icon="pagination-icons:fast-rewind" @click="${event => this.onBegin()}"></paper-icon-button>
+            <paper-icon-button id="navigateBeforeId" icon="pagination-icons:navigate-before" @click="${event => this.onBefore()}"></paper-icon-button>
             <span>${this.pageText}</span>
             ${this.items.map(item => html`
                 <paper-button
@@ -196,10 +200,14 @@ class LitPagination extends LitElement{
 
             <span>${this.ofText}</span>
             ${this.pages}
-            <paper-icon-button icon="pagination-icons:navigate-next" @click=${event => this.onNext()} ?hidden="${!this.hasNext}"></paper-icon-button>
-            <paper-icon-button icon="pagination-icons:fast-forward" @click=${event => this.onEnd()} ?hidden="${!this.hasNext}"></paper-icon-button>
+            <paper-icon-button id="navigateNextId" icon="pagination-icons:navigate-next" @click=${event => this.onNext()}></paper-icon-button>
+            <paper-icon-button id="fastForwardId" icon="pagination-icons:fast-forward" @click=${event => this.onEnd()}></paper-icon-button>
         </div>
         `
+    }
+
+    updated(changedProperties) {
+        this.updateNavigationButtonsState();
     }
 
 
@@ -234,6 +242,31 @@ class LitPagination extends LitElement{
     onPageChange(newValue, oldValue){
         this.dispatchEvent(new CustomEvent('page-change', {detail: {newPage: newValue, oldPage:oldValue}}));
     }
+
+    updateNavigationButtonsState() {
+        let fast_rewind_button = this.shadowRoot.getElementById('fastRewindId');
+        let navigate_before_button = this.shadowRoot.getElementById('navigateBeforeId');
+        let navigate_next_button = this.shadowRoot.getElementById('navigateNextId');
+        let fast_forward_button = this.shadowRoot.getElementById('fastForwardId');
+
+        if (fast_rewind_button && navigate_before_button && navigate_next_button && fast_forward_button) {
+            if (this.hasNext) {
+                navigate_next_button.removeAttribute('disabled');
+                fast_forward_button.removeAttribute('disabled');
+            } else {
+                navigate_next_button.setAttribute('disabled', 'disabled');
+                fast_forward_button.setAttribute('disabled', 'disabled');
+            }
+
+            if (this.hasBefore) {
+                fast_rewind_button.removeAttribute('disabled');
+                navigate_before_button.removeAttribute('disabled');
+            } else {
+                fast_rewind_button.setAttribute('disabled', 'disabled');
+                navigate_before_button.setAttribute('disabled', 'disabled');
+            }
+        }
+    }
     
     _firstIndex(page, size) {
         let index = page - size;
@@ -254,7 +287,7 @@ class LitPagination extends LitElement{
     }
 
     isCurrent(index, page) {
-        return index == page;
+        return index === page;
     }
 
     onChange(item) {
@@ -263,12 +296,13 @@ class LitPagination extends LitElement{
     }
 
     onBefore(event) {
-        this.page = this.page > 0 ? this.page - 1 : 1;
+        this.page = this.page > 1 ? this.page - 1 : 1;
     }
 
     onNext(event) {
         this.page = this.page < this.pages ? parseInt(this.page) + 1 : this.pages;
     }
+
     onBegin(event) {
         this.page = 1;
     }
@@ -276,8 +310,6 @@ class LitPagination extends LitElement{
     onEnd(event) {
         this.page = this.pages;
     }
-
-
 }
 
 customElements.define('lit-pagination', LitPagination);
