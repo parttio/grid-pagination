@@ -245,28 +245,28 @@ class LitPagination extends LitElement {
 
     updateNavigationButtonsState() {
         if(this.shadowRoot) {
-        let fast_rewind_button = this.shadowRoot.getElementById('fastRewindId');
-        let navigate_before_button = this.shadowRoot.getElementById('navigateBeforeId');
-        let navigate_next_button = this.shadowRoot.getElementById('navigateNextId');
-        let fast_forward_button = this.shadowRoot.getElementById('fastForwardId');
+            let fast_rewind_button = this.shadowRoot.getElementById('fastRewindId');
+            let navigate_before_button = this.shadowRoot.getElementById('navigateBeforeId');
+            let navigate_next_button = this.shadowRoot.getElementById('navigateNextId');
+            let fast_forward_button = this.shadowRoot.getElementById('fastForwardId');
 
-        if (fast_rewind_button && navigate_before_button && navigate_next_button && fast_forward_button) {
-            if (this.hasNext) {
-                navigate_next_button.removeAttribute('disabled');
-                fast_forward_button.removeAttribute('disabled');
-            } else {
-                navigate_next_button.setAttribute('disabled', 'disabled');
-                fast_forward_button.setAttribute('disabled', 'disabled');
-            }
+            if (fast_rewind_button && navigate_before_button && navigate_next_button && fast_forward_button) {
+                if (this.hasNext) {
+                    navigate_next_button.removeAttribute('disabled');
+                    fast_forward_button.removeAttribute('disabled');
+                } else {
+                    navigate_next_button.setAttribute('disabled', 'disabled');
+                    fast_forward_button.setAttribute('disabled', 'disabled');
+                }
 
-            if (this.hasBefore) {
-                fast_rewind_button.removeAttribute('disabled');
-                navigate_before_button.removeAttribute('disabled');
-            } else {
-                fast_rewind_button.setAttribute('disabled', 'disabled');
-                navigate_before_button.setAttribute('disabled', 'disabled');
+                if (this.hasBefore) {
+                    fast_rewind_button.removeAttribute('disabled');
+                    navigate_before_button.removeAttribute('disabled');
+                } else {
+                    fast_rewind_button.setAttribute('disabled', 'disabled');
+                    navigate_before_button.setAttribute('disabled', 'disabled');
+                }
             }
-        }
         }
     }
     
