@@ -1,13 +1,14 @@
-import { LitElement, html, css } from "lit-element";
+import { css, html, LitElement } from 'lit';
+import {customElement} from 'lit/decorators.js';
 
 import '@polymer/paper-button/paper-button';
 import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/iron-iconset-svg';
 
-class LitPagination extends LitElement{
+class LitPagination extends LitElement {
 
-    static get styles() {
-        return css`
+  static get styles() {
+    return css`
         :host {
             display: block;
             font-size: 14px;
@@ -41,9 +42,8 @@ class LitPagination extends LitElement{
         :host span {
             margin: 0px 4px;
         }
-        
     `;
-      } 
+  }
 
     static get properties() {
         return {
@@ -244,6 +244,7 @@ class LitPagination extends LitElement{
     }
 
     updateNavigationButtonsState() {
+        if(this.shadowRoot) {
         let fast_rewind_button = this.shadowRoot.getElementById('fastRewindId');
         let navigate_before_button = this.shadowRoot.getElementById('navigateBeforeId');
         let navigate_next_button = this.shadowRoot.getElementById('navigateNextId');
@@ -265,6 +266,7 @@ class LitPagination extends LitElement{
                 fast_rewind_button.setAttribute('disabled', 'disabled');
                 navigate_before_button.setAttribute('disabled', 'disabled');
             }
+        }
         }
     }
     
