@@ -16,6 +16,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <jetty.version>9.4.15.v20190215</jetty.version>
+        <!-- Doing release by manullay uploading to vaadin.com/directory -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <organization>
         <name>Klaudeta Mertiku</name>
@@ -119,6 +121,14 @@
                     <supportedPackagings>
                         <supportedPackaging>jar</supportedPackaging>
                     </supportedPackagings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <releaseProfiles>directory</releaseProfiles>
                 </configuration>
             </plugin>
         </plugins>
