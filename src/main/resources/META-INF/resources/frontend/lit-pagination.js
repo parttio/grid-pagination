@@ -1,13 +1,14 @@
-import { LitElement, html, css } from "lit-element";
+import { css, html, LitElement } from 'lit';
+import {customElement} from 'lit/decorators.js';
 
 import '@polymer/paper-button/paper-button';
 import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/iron-iconset-svg';
 
-class LitPagination extends LitElement{
+class LitPagination extends LitElement {
 
-    static get styles() {
-        return css`
+  static get styles() {
+    return css`
         :host {
             display: block;
             font-size: 14px;
@@ -41,9 +42,8 @@ class LitPagination extends LitElement{
         :host span {
             margin: 0px 4px;
         }
-        
     `;
-      } 
+  }
 
     static get properties() {
         return {
@@ -244,26 +244,28 @@ class LitPagination extends LitElement{
     }
 
     updateNavigationButtonsState() {
-        let fast_rewind_button = this.shadowRoot.getElementById('fastRewindId');
-        let navigate_before_button = this.shadowRoot.getElementById('navigateBeforeId');
-        let navigate_next_button = this.shadowRoot.getElementById('navigateNextId');
-        let fast_forward_button = this.shadowRoot.getElementById('fastForwardId');
+        if(this.shadowRoot) {
+            let fast_rewind_button = this.shadowRoot.getElementById('fastRewindId');
+            let navigate_before_button = this.shadowRoot.getElementById('navigateBeforeId');
+            let navigate_next_button = this.shadowRoot.getElementById('navigateNextId');
+            let fast_forward_button = this.shadowRoot.getElementById('fastForwardId');
 
-        if (fast_rewind_button && navigate_before_button && navigate_next_button && fast_forward_button) {
-            if (this.hasNext) {
-                navigate_next_button.removeAttribute('disabled');
-                fast_forward_button.removeAttribute('disabled');
-            } else {
-                navigate_next_button.setAttribute('disabled', 'disabled');
-                fast_forward_button.setAttribute('disabled', 'disabled');
-            }
+            if (fast_rewind_button && navigate_before_button && navigate_next_button && fast_forward_button) {
+                if (this.hasNext) {
+                    navigate_next_button.removeAttribute('disabled');
+                    fast_forward_button.removeAttribute('disabled');
+                } else {
+                    navigate_next_button.setAttribute('disabled', 'disabled');
+                    fast_forward_button.setAttribute('disabled', 'disabled');
+                }
 
-            if (this.hasBefore) {
-                fast_rewind_button.removeAttribute('disabled');
-                navigate_before_button.removeAttribute('disabled');
-            } else {
-                fast_rewind_button.setAttribute('disabled', 'disabled');
-                navigate_before_button.setAttribute('disabled', 'disabled');
+                if (this.hasBefore) {
+                    fast_rewind_button.removeAttribute('disabled');
+                    navigate_before_button.removeAttribute('disabled');
+                } else {
+                    fast_rewind_button.setAttribute('disabled', 'disabled');
+                    navigate_before_button.setAttribute('disabled', 'disabled');
+                }
             }
         }
     }
