@@ -224,7 +224,7 @@ public class PaginatedGrid<T, F> extends Grid<T> {
         }
 
         InnerQuery(int offset, F filter) {
-            super(offset, getPageSize(), getDataCommunicator().getBackEndSorting(), getDataCommunicator().getInMemorySorting(), filter);
+            super(offset, pagination.getPageSize(), getDataCommunicator().getBackEndSorting(), getDataCommunicator().getInMemorySorting(), filter);
         }
 
         InnerQuery(int offset, List<QuerySortOrder> sortOrders, SerializableComparator<T> serializableComparator) {
