@@ -5,17 +5,17 @@
     <artifactId>grid-pagination</artifactId>
     <version>3.0.1-SNAPSHOT</version>
     <name>Grid Pagination</name>
-    <description>Integration of lit-pagination for Vaadin 23.2.4+</description>
+    <description>Integration of lit-pagination for Vaadin 24.0.0+</description>
 
     <properties>
-        <vaadin.version>23.2.4</vaadin.version>
+        <vaadin.version>24.0.0</vaadin.version>
 
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <jetty.version>9.4.15.v20190215</jetty.version>
+        <jetty.version>11.0.14</jetty.version>
         <!-- Doing release by manullay uploading to vaadin.com/directory -->
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
