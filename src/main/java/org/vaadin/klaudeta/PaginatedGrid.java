@@ -45,7 +45,7 @@ public class PaginatedGrid<T, F> extends Grid<T> {
 
     private void init() {
         this.dataProvider = super.getDataProvider();
-        this.setHeightByRows(true);
+        this.setAllRowsVisible(true);
         pagination.addPageChangeListener(e -> doCalcs(e.getNewPage()));
         addSortListener(e -> doCalcs(pagination.getPage()));
     }
@@ -139,8 +139,8 @@ public class PaginatedGrid<T, F> extends Grid<T> {
     }
 
     @Override
-    public void setHeightByRows(boolean heightByRows) {
-        super.setHeightByRows(true);
+    public void setAllRowsVisible(boolean allRowsVisible) {
+        super.setAllRowsVisible(true);
     }
 
     /**
