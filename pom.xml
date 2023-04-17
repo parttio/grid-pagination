@@ -3,7 +3,7 @@
 
     <groupId>org.vaadin.klaudeta</groupId>
     <artifactId>grid-pagination</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.0</version>
     <name>Grid Pagination</name>
     <description>Integration of lit-pagination for Vaadin 24.0.0+</description>
 
@@ -34,7 +34,7 @@
         <url>https://github.com/parttio/grid-pagination</url>
         <connection>scm:git:git://github.com/parttio/grid-pagination.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:/parttio/grid-pagination.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>grid-pagination-4.0.0</tag>
     </scm>
     <dependencyManagement>
         <dependencies>
