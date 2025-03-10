@@ -32,7 +32,7 @@ public class PaginatedGrid<T, F> extends Grid<T> {
     private DataProvider<T, ?> dataProvider;
 
     private F filter;
-    
+
     public PaginatedGrid() {
         super();
         init();
@@ -53,6 +53,7 @@ public class PaginatedGrid<T, F> extends Grid<T> {
     /**
      * Sets a container component for the pagination component to be placed within.
      * If a container is set the PaginationLocation will be ignored.
+     *
      * @param paginationContainer
      */
     public void setPaginationContainer(Component paginationContainer) {
@@ -68,7 +69,7 @@ public class PaginatedGrid<T, F> extends Grid<T> {
         wrapper.getElement().getStyle().set("display", "flex");
         wrapper.getElement().getStyle().set("justify-content", "center");
 
-        if (paginationContainer!=null){
+        if (paginationContainer != null) {
             paginationContainer.getElement().insertChild(0, wrapper.getElement());
         } else {
             getParent().ifPresent(p -> {
@@ -97,9 +98,13 @@ public class PaginatedGrid<T, F> extends Grid<T> {
     }
 
     public void refreshPaginator() {
+        this.refreshPaginator(1);
+    }
+
+    public void refreshPaginator(int page) {
         if (pagination != null) {
             pagination.setPageSize(getPageSize());
-            pagination.setPage(1);
+            pagination.setPage(page);
             if (dataProvider != null) {
                 doCalcs(pagination.getPage());
             }
@@ -179,10 +184,10 @@ public class PaginatedGrid<T, F> extends Grid<T> {
         }
 
     }
-    
+
     public void setFilter(F filter) {
-    	this.filter = filter;
-    } 
+        this.filter = filter;
+    }
 
     /**
      * change visibility of pagination component
@@ -214,7 +219,7 @@ public class PaginatedGrid<T, F> extends Grid<T> {
         InnerQuery() {
             this(0);
         }
-        
+
         InnerQuery(F filter) {
             this(0, filter);
         }
